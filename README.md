@@ -1,4 +1,17 @@
-
+def wait_for_device(device_path, timeout=30):
+    start_time = time.time()
+    while time.time() - start_time < timeout:
+        try:
+            # Проверяем доступность устройства
+            if os.access(device_path, os.R_OK | os.W_OK):
+                print(f"Устройство {device_path} освободилось.")
+                return True
+        except FileNotFoundError:
+            print(f"Устройство {device_path} не найдено.")
+            return False
+        time.sleep(1)  # Пауза между проверками
+    print(f"Время ожидания истекло, устройство {device_path} не освободилось.")
+    return False
 ---
 
 
